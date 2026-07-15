@@ -25,19 +25,28 @@
   /* ===== АНИМИРОВАННЫЙ ФОН ===== */
   .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
   .star {
-    position: absolute; background: #fff; border-radius: 50%;
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
     animation: twinkle 3s infinite ease-in-out, floatStar 12s infinite ease-in-out alternate;
   }
   @keyframes twinkle {
     0%, 100% { opacity: .2; transform: scale(1); }
     50%      { opacity: 1;  transform: scale(1.4); }
   }
-  @keyframes floatStar { from { translate: 0 0; } to { translate: 15px -25px; } }
+  @keyframes floatStar {
+    from { translate: 0 0; }
+    to   { translate: 15px -25px; }
+  }
 
+  /* Дрейфующие туманности */
   .fog {
-    position: fixed; border-radius: 50%;
-    filter: blur(90px); opacity: .35;
-    pointer-events: none; z-index: 0;
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .35;
+    pointer-events: none;
+    z-index: 0;
     animation: drift 14s infinite alternate ease-in-out;
   }
   .fog1 { width: 45vw; height: 45vw; background: #6a00ff; top: -10%; left: -10%; }
@@ -49,9 +58,13 @@
     100% { transform: translate(-5vw, 5vh) scale(0.95) rotate(-8deg); }
   }
 
+  /* Плавающие светящиеся частицы */
   .particle {
-    position: fixed; bottom: -20px; border-radius: 50%;
-    pointer-events: none; z-index: 0;
+    position: fixed;
+    bottom: -20px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
     animation: rise linear infinite;
   }
   @keyframes rise {
@@ -61,15 +74,22 @@
     100% { transform: translateY(-110vh) translateX(6vw); opacity: 0; }
   }
 
+  /* Падающие кометы */
   .comet {
-    position: fixed; width: 2px; height: 2px;
-    background: #fff; border-radius: 50%;
+    position: fixed;
+    width: 2px; height: 2px;
+    background: #fff;
+    border-radius: 50%;
     box-shadow: 0 0 8px 2px rgba(255,255,255,.8);
-    pointer-events: none; z-index: 0;
-    animation: shoot 4s linear infinite; opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    animation: shoot 4s linear infinite;
+    opacity: 0;
   }
   .comet::after {
-    content: ""; position: absolute; top: 50%; right: 0;
+    content: "";
+    position: absolute;
+    top: 50%; right: 0;
     width: 90px; height: 1px;
     background: linear-gradient(90deg, transparent, rgba(180, 140, 255, .9));
     transform: translateY(-50%);
@@ -83,15 +103,18 @@
 
   /* ===== КАРТОЧКА ===== */
   .card {
-    position: relative; z-index: 1;
-    width: 100%; max-width: 640px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 640px;
     background: rgba(10, 5, 25, 0.75);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid rgba(160, 100, 255, 0.35);
     border-radius: 22px;
     padding: 34px 30px;
-    box-shadow: 0 0 60px rgba(120, 0, 255, 0.25), inset 0 0 30px rgba(120, 0, 255, 0.06);
+    box-shadow: 0 0 60px rgba(120, 0, 255, 0.25),
+                inset 0 0 30px rgba(120, 0, 255, 0.06);
     color: #e6dcff;
     animation: cardGlow 6s infinite ease-in-out alternate;
   }
@@ -108,69 +131,54 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    margin-bottom: 6px; letter-spacing: 1px;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
     animation: gradientShift 6s linear infinite;
   }
-  @keyframes gradientShift { from { background-position: 0% 0; } to { background-position: 300% 0; } }
+  @keyframes gradientShift {
+    from { background-position: 0% 0; }
+    to   { background-position: 300% 0; }
+  }
   .subtitle { text-align: center; font-size: .85rem; color: #8f7fb8; margin-bottom: 24px; }
 
   .textarea-wrap { position: relative; }
   textarea {
-    width: 100%; min-height: 120px; resize: vertical;
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
     background: rgba(0, 0, 0, 0.45);
     border: 1px solid rgba(160, 100, 255, 0.3);
     border-radius: 14px;
     padding: 14px 44px 14px 14px;
-    color: #f0e9ff; font-size: 1rem; outline: none;
+    color: #f0e9ff;
+    font-size: 1rem;
+    outline: none;
     transition: border-color .25s, box-shadow .25s;
   }
-  textarea:focus { border-color: #a06aff; box-shadow: 0 0 14px rgba(160, 106, 255, 0.4); }
+  textarea:focus {
+    border-color: #a06aff;
+    box-shadow: 0 0 14px rgba(160, 106, 255, 0.4);
+  }
   textarea::placeholder { color: #6b5a94; }
 
+  /* Кнопка очистки */
   .btn-clear {
-    position: absolute; top: 10px; right: 10px;
+    position: absolute;
+    top: 10px; right: 10px;
     width: 32px; height: 32px;
-    border: none; border-radius: 50%;
+    border: none;
+    border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
-    color: #c9b8f0; font-size: 1rem; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+    color: #c9b8f0;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background .25s, transform .15s;
   }
   .btn-clear:hover { background: rgba(255, 100, 130, 0.25); transform: rotate(-15deg) scale(1.1); }
   .btn-clear:active { transform: scale(.9); }
-
-  /* Зона загрузки изображения */
-  .img-drop {
-    margin-top: 12px;
-    border: 2px dashed rgba(160, 100, 255, 0.35);
-    border-radius: 14px;
-    padding: 14px;
-    text-align: center;
-    font-size: .9rem;
-    color: #8f7fb8;
-    cursor: pointer;
-    transition: border-color .25s, background .25s;
-  }
-  .img-drop:hover, .img-drop.dragover {
-    border-color: #6ee7ff;
-    background: rgba(110, 231, 255, 0.06);
-    color: #b6f3ff;
-  }
-  .img-drop input { display: none; }
-  .img-preview {
-    max-width: 100%; max-height: 140px;
-    border-radius: 10px; margin-top: 10px;
-    display: none;
-  }
-  .img-preview.show { display: inline-block; }
-  .img-remove {
-    display: none;
-    margin-top: 8px;
-    background: none; border: none;
-    color: #ff7ba6; font-size: .85rem; cursor: pointer;
-    text-decoration: underline;
-  }
-  .img-remove.show { display: inline-block; }
 
   .controls { margin: 22px 0; display: flex; flex-direction: column; gap: 18px; }
   .slider-row label {
@@ -189,7 +197,9 @@
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 22px; height: 22px; border-radius: 50%;
-    background: #fff; box-shadow: 0 0 12px #a06aff, 0 0 4px #fff; cursor: grab;
+    background: #fff;
+    box-shadow: 0 0 12px #a06aff, 0 0 4px #fff;
+    cursor: grab;
   }
   input[type="range"]::-moz-range-thumb {
     width: 22px; height: 22px; border: none; border-radius: 50%;
@@ -206,21 +216,25 @@
     position: absolute; inset: 0;
     background: rgba(255,255,255,0.12);
     border-radius: 28px;
-    transition: background .3s; cursor: pointer;
+    transition: background .3s;
+    cursor: pointer;
   }
   .switch .track::before {
-    content: ""; position: absolute;
+    content: "";
+    position: absolute;
     width: 22px; height: 22px; left: 3px; top: 3px;
-    border-radius: 50%; background: #fff; transition: transform .3s;
+    border-radius: 50%; background: #fff;
+    transition: transform .3s;
   }
   .switch input:checked + .track { background: linear-gradient(90deg, #6a00ff, #ff007b); }
   .switch input:checked + .track::before { transform: translateX(26px); }
 
   .buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+  button { font-family: inherit; }
   .buttons button {
     flex: 1; min-width: 130px;
     padding: 14px 10px;
-    font-size: 1rem; font-weight: 600; font-family: inherit;
+    font-size: 1rem; font-weight: 600;
     border: none; border-radius: 14px;
     cursor: pointer; color: #fff;
     transition: transform .15s, box-shadow .25s, filter .25s;
@@ -228,31 +242,13 @@
   .buttons button:active { transform: scale(.96); }
   .btn-encode { background: linear-gradient(135deg, #6a00ff, #a04cff); box-shadow: 0 4px 20px rgba(120, 0, 255, 0.45); }
   .btn-decode { background: linear-gradient(135deg, #0077ff, #00c8ff); box-shadow: 0 4px 20px rgba(0, 150, 255, 0.4); }
+  .btn-copy   { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
   .buttons button:hover { filter: brightness(1.15); }
 
   .result-wrap { margin-top: 20px; }
-  .result-head {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 6px;
-  }
-  .result-label { font-size: .85rem; color: #8f7fb8; }
-  .btn-copy-result {
-    background: rgba(110, 231, 255, 0.12);
-    border: 1px solid rgba(110, 231, 255, 0.4);
-    color: #6ee7ff;
-    padding: 6px 16px;
-    border-radius: 999px;
-    font-size: .85rem;
-    font-family: inherit;
-    cursor: pointer;
-    transition: background .25s, transform .15s;
-  }
-  .btn-copy-result:hover { background: rgba(110, 231, 255, 0.25); }
-  .btn-copy-result:active { transform: scale(.94); }
-  .btn-copy-result.copied { background: rgba(80, 220, 130, 0.25); border-color: #50dc82; color: #7dfba9; }
-
+  .result-label { font-size: .85rem; color: #8f7fb8; margin-bottom: 6px; }
   #result {
-    min-height: 90px; max-height: 300px; overflow-y: auto;
+    min-height: 90px;
     background: rgba(0,0,0,0.5);
     border: 1px dashed rgba(110, 231, 255, 0.35);
     border-radius: 14px;
@@ -262,16 +258,10 @@
     font-size: 1rem;
     color: #b6f3ff;
   }
-  #result a { color: #7db8ff; text-decoration: underline; word-break: break-all; }
-  #result a:hover { color: #b6f3ff; }
-  #result img.decoded-img {
-    display: block; max-width: 100%; max-height: 220px;
-    border-radius: 10px; margin-top: 10px;
-    border: 1px solid rgba(160, 100, 255, 0.4);
-  }
 
   .toast {
-    position: fixed; bottom: 24px; left: 50%;
+    position: fixed;
+    bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
     background: rgba(20, 8, 45, 0.95);
     border: 1px solid #a06aff;
@@ -284,27 +274,36 @@
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* ===== ПАСХАЛКА ===== */
+  /* ===== ПАСХАЛКА HELLO KITTY ===== */
   .kitty-btn {
-    position: fixed; bottom: 14px; right: 14px;
+    position: fixed;
+    bottom: 14px; right: 14px;
     width: 44px; height: 44px;
-    border: none; border-radius: 50%;
+    border: none;
+    border-radius: 50%;
     background: rgba(255, 255, 255, 0.06);
-    font-size: 1.5rem; cursor: pointer;
-    z-index: 5; opacity: .5;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 5;
+    opacity: .5;
     transition: opacity .3s, transform .3s;
     display: flex; align-items: center; justify-content: center;
   }
   .kitty-btn:hover { opacity: 1; transform: scale(1.2) rotate(-10deg); }
 
   .kitty-overlay {
-    position: fixed; inset: 0; z-index: 20;
-    display: none; align-items: center; justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: none;
+    align-items: center;
+    justify-content: center;
     background: rgba(255, 170, 210, 0.18);
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
   }
   .kitty-overlay.active { display: flex; }
+
   .kitty-message {
     background: rgba(255, 240, 248, 0.97);
     color: #d63384;
@@ -320,10 +319,13 @@
   .kitty-message .kitty-face { font-size: 2.4rem; display: block; margin-bottom: 8px; }
   @keyframes kittyPop {
     from { transform: scale(0) rotate(-10deg); opacity: 0; }
-    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+    to   { transform: scale(1) rotate(0deg);  opacity: 1; }
   }
+
   .flower {
-    position: fixed; top: -50px; z-index: 21;
+    position: fixed;
+    top: -50px;
+    z-index: 21;
     pointer-events: none;
     animation: flowerFall linear forwards;
   }
@@ -339,6 +341,8 @@
     textarea { min-height: 100px; }
     .kitty-message { padding: 20px 26px; margin: 0 16px; }
   }
+
+  /* Отключение анимаций, если пользователь просил */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01s !important; animation-iteration-count: 1 !important; }
   }
@@ -357,16 +361,8 @@
 
   <div class="textarea-wrap">
     <textarea id="input" placeholder="Введи текст для шифровки… или вставь шифр для раскодировки"></textarea>
-    <button class="btn-clear" id="btnClear" title="Очистить всё">🧹</button>
+    <button class="btn-clear" id="btnClear" title="Очистить поле">🧹</button>
   </div>
-
-  <!-- Загрузка изображения -->
-  <label class="img-drop" id="imgDrop">
-    📷 Нажми или перетащи сюда картинку для шифровки
-    <input type="file" id="imgInput" accept="image/*">
-    <img class="img-preview" id="imgPreview" alt="превью">
-    <button type="button" class="img-remove" id="imgRemove">убрать картинку ✖</button>
-  </label>
 
   <div class="controls">
     <div class="slider-row">
@@ -385,17 +381,16 @@
   <div class="buttons">
     <button class="btn-encode" id="btnEncode">🔒 Закодировать</button>
     <button class="btn-decode" id="btnDecode">🔓 Раскодировать</button>
+    <button class="btn-copy" id="btnCopy">📋 Копировать</button>
   </div>
 
   <div class="result-wrap">
-    <div class="result-head">
-      <span class="result-label">Результат:</span>
-      <button class="btn-copy-result" id="btnCopy">📋 Копировать</button>
-    </div>
+    <div class="result-label">Результат:</div>
     <div id="result"></div>
   </div>
 </main>
 
+<!-- Пасхалка -->
 <button class="kitty-btn" id="kittyBtn" title="🎀">🐱‍👤</button>
 <div class="kitty-overlay" id="kittyOverlay">
   <div class="kitty-message">
@@ -414,7 +409,6 @@
   const EMOJIS  = ["🔮","🌙","⭐","🦇","🕯️","🗝️","🌫️","👁️","🐍","🕸️","💀","🌘","⚗️","🪄","🧿","🌌"];
   const NOISE_S = ["·","˙","¨","ˆ","˜"];
   const NOISE_E = ["✨","💫","🌟","🫧","🌠"];
-  const IMG_MARKER = "\u0001IMG\u0001"; // внутренняя метка изображения
 
   const keyBytes = new TextEncoder().encode(SECRET_KEY);
   const xor = bytes => bytes.map((b, i) => b ^ keyBytes[i % keyBytes.length]);
@@ -455,11 +449,6 @@
   const $ = id => document.getElementById(id);
   const input = $("input"), result = $("result"), toast = $("toast");
   const slider = $("lenSlider"), lenValue = $("lenValue"), emojiToggle = $("emojiToggle");
-  const imgDrop = $("imgDrop"), imgInput = $("imgInput"), imgPreview = $("imgPreview"), imgRemove = $("imgRemove");
-  const btnCopy = $("btnCopy");
-
-  let attachedImage = null; // dataURL прикреплённой картинки
-  let rawResult = "";       // чистый текст результата для копирования
 
   slider.addEventListener("input", () => lenValue.textContent = "×" + slider.value);
 
@@ -470,180 +459,43 @@
     toast._t = setTimeout(() => toast.classList.remove("show"), 2200);
   }
 
-  // ===== Работа с изображением =====
-  // Сжимаем картинку через canvas, чтобы шифр не был гигантским
-  function compressImage(file) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.onload = () => {
-        const MAX = 400; // макс. сторона
-        let { width: w, height: h } = img;
-        if (Math.max(w, h) > MAX) {
-          const k = MAX / Math.max(w, h);
-          w = Math.round(w * k); h = Math.round(h * k);
-        }
-        const canvas = document.createElement("canvas");
-        canvas.width = w; canvas.height = h;
-        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-        URL.revokeObjectURL(url);
-        resolve(canvas.toDataURL("image/jpeg", 0.6));
-      };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Не удалось прочитать картинку")); };
-      img.src = url;
-    });
-  }
-
-  async function attachFile(file) {
-    if (!file || !file.type.startsWith("image/")) return showToast("Это не картинка 🤔");
-    try {
-      attachedImage = await compressImage(file);
-      imgPreview.src = attachedImage;
-      imgPreview.classList.add("show");
-      imgRemove.classList.add("show");
-      showToast("Картинка прикреплена 📷");
-    } catch (e) {
-      showToast("⚠️ " + e.message);
-    }
-  }
-
-  imgInput.addEventListener("change", () => attachFile(imgInput.files[0]));
-  imgDrop.addEventListener("dragover", e => { e.preventDefault(); imgDrop.classList.add("dragover"); });
-  imgDrop.addEventListener("dragleave", () => imgDrop.classList.remove("dragover"));
-  imgDrop.addEventListener("drop", e => {
-    e.preventDefault();
-    imgDrop.classList.remove("dragover");
-    attachFile(e.dataTransfer.files[0]);
-  });
-  imgRemove.addEventListener("click", e => {
-    e.preventDefault(); e.stopPropagation();
-    attachedImage = null;
-    imgPreview.classList.remove("show");
-    imgRemove.classList.remove("show");
-    imgInput.value = "";
-    showToast("Картинка убрана");
-  });
-
-  // ===== Отрисовка результата с кликабельными ссылками =====
-  const URL_RE = /(https?:\/\/[^\s<>"']+)/g;
-
-  function renderDecoded(text) {
-    result.innerHTML = "";
-    rawResult = text;
-
-    // Изображение внутри?
-    const imgIdx = text.indexOf(IMG_MARKER);
-    let plainText = text, imageData = null;
-    if (imgIdx !== -1) {
-      plainText = text.slice(0, imgIdx);
-      imageData = text.slice(imgIdx + IMG_MARKER.length);
-      rawResult = plainText; // копируем только текст, без гигантского base64
-    }
-
-    // Текст с кликабельными ссылками
-    if (plainText) {
-      plainText.split(URL_RE).forEach(part => {
-        if (URL_RE.test(part)) {
-          URL_RE.lastIndex = 0;
-          const a = document.createElement("a");
-          a.href = part;
-          a.textContent = part;
-          a.target = "_blank";
-          a.rel = "noopener noreferrer";
-          result.appendChild(a);
-        } else if (part) {
-          result.appendChild(document.createTextNode(part));
-        }
-      });
-    }
-
-    // Картинка: превью + кликабельная ссылка для открытия
-    if (imageData) {
-      const link = document.createElement("a");
-      link.textContent = "🖼️ Открыть изображение в новой вкладке";
-      link.href = "#";
-      link.addEventListener("click", e => {
-        e.preventDefault();
-        // dataURL нельзя открыть напрямую в новых браузерах — используем Blob
-        fetch(imageData).then(r => r.blob()).then(blob => {
-          window.open(URL.createObjectURL(blob), "_blank");
-        });
-      });
-      const img = document.createElement("img");
-      img.className = "decoded-img";
-      img.src = imageData;
-      img.alt = "раскодированное изображение";
-      if (plainText) result.appendChild(document.createElement("br"));
-      result.appendChild(link);
-      result.appendChild(img);
-    }
-  }
-
-  // ===== Кнопки =====
   $("btnEncode").addEventListener("click", () => {
     const text = input.value;
-    if (!text.trim() && !attachedImage) return showToast("Введите текст или прикрепите картинку 🙃");
-    let payload = text;
-    if (attachedImage) payload += IMG_MARKER + attachedImage;
-    // Для картинок принудительно длина ×1 (иначе шифр раздуется в разы)
-    const mult = attachedImage ? 1 : +slider.value;
-    const cipher = encode(payload, mult, emojiToggle.checked);
-    result.textContent = cipher;
-    rawResult = cipher;
-    showToast(attachedImage
-      ? "Зашифровано с картинкой 🔒📷 (длина ×1 для компактности)"
-      : "Зашифровано 🔒");
+    if (!text.trim()) return showToast("Введите текст 🙃");
+    result.textContent = encode(text, +slider.value, emojiToggle.checked);
+    showToast("Зашифровано 🔒");
   });
 
   $("btnDecode").addEventListener("click", () => {
     const text = input.value;
     if (!text.trim()) return showToast("Вставьте шифр 🙃");
     try {
-      renderDecoded(decode(text));
+      result.textContent = decode(text);
       showToast("Раскодировано 🔓");
     } catch (e) {
       result.textContent = "";
-      rawResult = "";
       showToast("⚠️ " + e.message);
     }
   });
 
-  btnCopy.addEventListener("click", async () => {
-    if (!rawResult) return showToast("Нечего копировать 🤷");
-    try {
-      await navigator.clipboard.writeText(rawResult);
-    } catch {
-      // запасной способ для старых браузеров
-      const ta = document.createElement("textarea");
-      ta.value = rawResult;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      ta.remove();
-    }
-    btnCopy.textContent = "✅ Скопировано!";
-    btnCopy.classList.add("copied");
-    setTimeout(() => {
-      btnCopy.textContent = "📋 Копировать";
-      btnCopy.classList.remove("copied");
-    }, 1800);
+  $("btnCopy").addEventListener("click", async () => {
+    if (!result.textContent) return showToast("Нечего копировать 🤷");
+    await navigator.clipboard.writeText(result.textContent);
+    showToast("Скопировано 📋");
   });
 
+  // Кнопка быстрой очистки
   $("btnClear").addEventListener("click", () => {
     input.value = "";
     result.textContent = "";
-    rawResult = "";
-    attachedImage = null;
-    imgPreview.classList.remove("show");
-    imgRemove.classList.remove("show");
-    imgInput.value = "";
     input.focus();
-    showToast("Всё очищено 🧹");
+    showToast("Поле очищено 🧹");
   });
 
-  // ===== Пасхалка =====
+  // ===== Пасхалка Hello Kitty =====
   const overlay = $("kittyOverlay");
   const FLOWERS = ["🌸","🌷","🌺","💮","🌼","🏵️","💖","🎀"];
+
   function spawnFlowers() {
     for (let i = 0; i < 45; i++) {
       const f = document.createElement("div");
@@ -657,6 +509,7 @@
       setTimeout(() => f.remove(), 8000);
     }
   }
+
   $("kittyBtn").addEventListener("click", () => {
     overlay.classList.add("active");
     spawnFlowers();
@@ -665,6 +518,7 @@
   overlay.addEventListener("click", () => overlay.classList.remove("active"));
 
   // ===== Фоновые анимации =====
+  // Звёзды
   const stars = $("stars");
   for (let i = 0; i < 90; i++) {
     const s = document.createElement("div");
@@ -673,6 +527,8 @@
     s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*3}s, ${Math.random()*12}s`;
     stars.appendChild(s);
   }
+
+  // Плавающие частицы
   const COLORS = ["rgba(160,106,255,.7)","rgba(110,231,255,.6)","rgba(255,123,213,.6)"];
   for (let i = 0; i < 18; i++) {
     const p = document.createElement("div");
@@ -681,6 +537,8 @@
     p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${COLORS[i % 3]};box-shadow:0 0 ${size*2}px ${COLORS[i % 3]};animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*12}s`;
     document.body.appendChild(p);
   }
+
+  // Кометы
   for (let i = 0; i < 3; i++) {
     const c = document.createElement("div");
     c.className = "comet";
