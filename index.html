@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔮 Мистический Шифратор</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: radial-gradient(ellipse at 20% 20%, #1a0b2e 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, #0b1e2e 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 120%, #2e0b28 0%, transparent 60%),
+                #05010d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ===== АНИМИРОВАННЫЙ ФОН ===== */
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite ease-in-out, floatStar 12s infinite ease-in-out alternate;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: .2; transform: scale(1); }
+    50%      { opacity: 1;  transform: scale(1.4); }
+  }
+  @keyframes floatStar {
+    from { translate: 0 0; }
+    to   { translate: 15px -25px; }
+  }
+
+  /* Дрейфующие туманности */
+  .fog {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .35;
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 14s infinite alternate ease-in-out;
+  }
+  .fog1 { width: 45vw; height: 45vw; background: #6a00ff; top: -10%; left: -10%; }
+  .fog2 { width: 40vw; height: 40vw; background: #00c8ff; bottom: -10%; right: -10%; animation-delay: -5s; animation-duration: 17s; }
+  .fog3 { width: 30vw; height: 30vw; background: #ff007b; top: 40%; left: 60%; animation-delay: -9s; animation-duration: 21s; }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50%  { transform: translate(8vw, -6vh) scale(1.2) rotate(10deg); }
+    100% { transform: translate(-5vw, 5vh) scale(0.95) rotate(-8deg); }
+  }
+
+  /* Плавающие светящиеся частицы */
+  .particle {
+    position: fixed;
+    bottom: -20px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: rise linear infinite;
+  }
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    10%  { opacity: .8; }
+    90%  { opacity: .4; }
+    100% { transform: translateY(-110vh) translateX(6vw); opacity: 0; }
+  }
+
+  /* Падающие кометы */
+  .comet {
+    position: fixed;
+    width: 2px; height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px 2px rgba(255,255,255,.8);
+    pointer-events: none;
+    z-index: 0;
+    animation: shoot 4s linear infinite;
+    opacity: 0;
+  }
+  .comet::after {
+    content: "";
+    position: absolute;
+    top: 50%; right: 0;
+    width: 90px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(180, 140, 255, .9));
+    transform: translateY(-50%);
+  }
+  @keyframes shoot {
+    0%   { transform: translate(0, 0); opacity: 0; }
+    5%   { opacity: 1; }
+    25%  { transform: translate(-45vw, 35vh); opacity: 0; }
+    100% { transform: translate(-45vw, 35vh); opacity: 0; }
+  }
+
+  /* ===== КАРТОЧКА ===== */
+  .card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 640px;
+    background: rgba(10, 5, 25, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(160, 100, 255, 0.35);
+    border-radius: 22px;
+    padding: 34px 30px;
+    box-shadow: 0 0 60px rgba(120, 0, 255, 0.25),
+                inset 0 0 30px rgba(120, 0, 255, 0.06);
+    color: #e6dcff;
+    animation: cardGlow 6s infinite ease-in-out alternate;
+  }
+  @keyframes cardGlow {
+    from { box-shadow: 0 0 60px rgba(120, 0, 255, 0.25); }
+    to   { box-shadow: 0 0 80px rgba(0, 200, 255, 0.3); }
+  }
+
+  h1 {
+    text-align: center;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    background: linear-gradient(90deg, #b57bff, #6ee7ff, #ff7bd5, #b57bff);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    animation: gradientShift 6s linear infinite;
+  }
+  @keyframes gradientShift {
+    from { background-position: 0% 0; }
+    to   { background-position: 300% 0; }
+  }
+  .subtitle { text-align: center; font-size: .85rem; color: #8f7fb8; margin-bottom: 24px; }
+
+  .textarea-wrap { position: relative; }
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(160, 100, 255, 0.3);
+    border-radius: 14px;
+    padding: 14px 44px 14px 14px;
+    color: #f0e9ff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color .25s, box-shadow .25s;
+  }
+  textarea:focus {
+    border-color: #a06aff;
+    box-shadow: 0 0 14px rgba(160, 106, 255, 0.4);
+  }
+  textarea::placeholder { color: #6b5a94; }
+
+  /* Кнопка очистки */
+  .btn-clear {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 32px; height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #c9b8f0;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .25s, transform .15s;
+  }
+  .btn-clear:hover { background: rgba(255, 100, 130, 0.25); transform: rotate(-15deg) scale(1.1); }
+  .btn-clear:active { transform: scale(.9); }
+
+  .controls { margin: 22px 0; display: flex; flex-direction: column; gap: 18px; }
+  .slider-row label {
+    display: flex; justify-content: space-between;
+    font-size: .9rem; margin-bottom: 8px; color: #c9b8f0;
+  }
+  .slider-row output { color: #6ee7ff; font-weight: 600; }
+
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none; appearance: none;
+    height: 6px; border-radius: 3px;
+    background: linear-gradient(90deg, #6a00ff, #00c8ff);
+    outline: none; cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 12px #a06aff, 0 0 4px #fff;
+    cursor: grab;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 22px; height: 22px; border: none; border-radius: 50%;
+    background: #fff; box-shadow: 0 0 12px #a06aff; cursor: grab;
+  }
+
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: .9rem; color: #c9b8f0;
+  }
+  .switch { position: relative; width: 54px; height: 28px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch .track {
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.12);
+    border-radius: 28px;
+    transition: background .3s;
+    cursor: pointer;
+  }
+  .switch .track::before {
+    content: "";
+    position: absolute;
+    width: 22px; height: 22px; left: 3px; top: 3px;
+    border-radius: 50%; background: #fff;
+    transition: transform .3s;
+  }
+  .switch input:checked + .track { background: linear-gradient(90deg, #6a00ff, #ff007b); }
+  .switch input:checked + .track::before { transform: translateX(26px); }
+
+  .buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+  button { font-family: inherit; }
+  .buttons button {
+    flex: 1; min-width: 130px;
+    padding: 14px 10px;
+    font-size: 1rem; font-weight: 600;
+    border: none; border-radius: 14px;
+    cursor: pointer; color: #fff;
+    transition: transform .15s, box-shadow .25s, filter .25s;
+  }
+  .buttons button:active { transform: scale(.96); }
+  .btn-encode { background: linear-gradient(135deg, #6a00ff, #a04cff); box-shadow: 0 4px 20px rgba(120, 0, 255, 0.45); }
+  .btn-decode { background: linear-gradient(135deg, #0077ff, #00c8ff); box-shadow: 0 4px 20px rgba(0, 150, 255, 0.4); }
+  .btn-copy   { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
+  .buttons button:hover { filter: brightness(1.15); }
+
+  .result-wrap { margin-top: 20px; }
+  .result-label { font-size: .85rem; color: #8f7fb8; margin-bottom: 6px; }
+  #result {
+    min-height: 90px;
+    background: rgba(0,0,0,0.5);
+    border: 1px dashed rgba(110, 231, 255, 0.35);
+    border-radius: 14px;
+    padding: 14px;
+    word-break: break-all;
+    white-space: pre-wrap;
+    font-size: 1rem;
+    color: #b6f3ff;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: rgba(20, 8, 45, 0.95);
+    border: 1px solid #a06aff;
+    color: #e6dcff;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: .9rem;
+    transition: transform .35s;
+    z-index: 10;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ===== ПАСХАЛКА HELLO KITTY ===== */
+  .kitty-btn {
+    position: fixed;
+    bottom: 14px; right: 14px;
+    width: 44px; height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 5;
+    opacity: .5;
+    transition: opacity .3s, transform .3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .kitty-btn:hover { opacity: 1; transform: scale(1.2) rotate(-10deg); }
+
+  .kitty-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 170, 210, 0.18);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+  .kitty-overlay.active { display: flex; }
+
+  .kitty-message {
+    background: rgba(255, 240, 248, 0.97);
+    color: #d63384;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: 700;
+    padding: 28px 42px;
+    border-radius: 24px;
+    border: 3px solid #ffb3d4;
+    box-shadow: 0 0 50px rgba(255, 120, 180, .6);
+    text-align: center;
+    animation: kittyPop .5s cubic-bezier(.34, 1.56, .64, 1);
+  }
+  .kitty-message .kitty-face { font-size: 2.4rem; display: block; margin-bottom: 8px; }
+  @keyframes kittyPop {
+    from { transform: scale(0) rotate(-10deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg);  opacity: 1; }
+  }
+
+  .flower {
+    position: fixed;
+    top: -50px;
+    z-index: 21;
+    pointer-events: none;
+    animation: flowerFall linear forwards;
+  }
+  @keyframes flowerFall {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(540deg); opacity: .7; }
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 24px 16px; border-radius: 16px; }
+    .buttons { flex-direction: column; }
+    .buttons button { min-width: 100%; }
+    textarea { min-height: 100px; }
+    .kitty-message { padding: 20px 26px; margin: 0 16px; }
+  }
+
+  /* Отключение анимаций, если пользователь просил */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01s !important; animation-iteration-count: 1 !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="fog fog1"></div>
+<div class="fog fog2"></div>
+<div class="fog fog3"></div>
+
+<main class="card">
+  <h1>🔮 Мистический Шифратор</h1>
+  <p class="subtitle">Уникальный шифр — раскодировать можно только здесь</p>
+
+  <div class="textarea-wrap">
+    <textarea id="input" placeholder="Введи текст для шифровки… или вставь шифр для раскодировки"></textarea>
+    <button class="btn-clear" id="btnClear" title="Очистить поле">🧹</button>
+  </div>
+
+  <div class="controls">
+    <div class="slider-row">
+      <label>Длина кодировки <output id="lenValue">×1</output></label>
+      <input type="range" id="lenSlider" min="1" max="5" step="1" value="1">
+    </div>
+    <div class="toggle-row">
+      <span>Смайлики в шифре 😈</span>
+      <label class="switch">
+        <input type="checkbox" id="emojiToggle" checked>
+        <span class="track"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button class="btn-encode" id="btnEncode">🔒 Закодировать</button>
+    <button class="btn-decode" id="btnDecode">🔓 Раскодировать</button>
+    <button class="btn-copy" id="btnCopy">📋 Копировать</button>
+  </div>
+
+  <div class="result-wrap">
+    <div class="result-label">Результат:</div>
+    <div id="result"></div>
+  </div>
+</main>
+
+<!-- Пасхалка -->
+<button class="kitty-btn" id="kittyBtn" title="🎀">🐱‍👤</button>
+<div class="kitty-overlay" id="kittyOverlay">
+  <div class="kitty-message">
+    <span class="kitty-face">🎀😺🎀</span>
+    ты большая умничка)
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  // ===== Секретные алфавиты =====
+  const SECRET_KEY = "M1st1c-K3y-\u2764-2026";
+  const SYMBOLS = ["ø","æ","þ","ð","ƶ","ʞ","ʑ","ɸ","ʓ","ɮ","ʠ","ɰ","ʭ","ɷ","ʢ","ɂ"];
+  const EMOJIS  = ["🔮","🌙","⭐","🦇","🕯️","🗝️","🌫️","👁️","🐍","🕸️","💀","🌘","⚗️","🪄","🧿","🌌"];
+  const NOISE_S = ["·","˙","¨","ˆ","˜"];
+  const NOISE_E = ["✨","💫","🌟","🫧","🌠"];
+
+  const keyBytes = new TextEncoder().encode(SECRET_KEY);
+  const xor = bytes => bytes.map((b, i) => b ^ keyBytes[i % keyBytes.length]);
+
+  function encode(text, lenMult, useEmoji) {
+    const alpha = useEmoji ? EMOJIS : SYMBOLS;
+    const noise = useEmoji ? NOISE_E : NOISE_S;
+    const bytes = xor(new TextEncoder().encode(text));
+    let out = "";
+    bytes.forEach(b => {
+      out += alpha[b >> 4] + alpha[b & 15];
+      for (let i = 0; i < lenMult - 1; i++) {
+        out += noise[Math.floor(Math.random() * noise.length)];
+      }
+    });
+    return out;
+  }
+
+  function decode(cipher) {
+    const map = new Map();
+    SYMBOLS.forEach((c, i) => map.set(c, i));
+    EMOJIS.forEach((c, i) => map.set(c, i));
+    const chars = [...(Intl.Segmenter
+      ? Array.from(new Intl.Segmenter().segment(cipher), s => s.segment)
+      : cipher)];
+    const nibbles = chars.filter(c => map.has(c)).map(c => map.get(c));
+    if (nibbles.length < 2 || nibbles.length % 2 !== 0) {
+      throw new Error("Это не наш шифр или он повреждён");
+    }
+    const bytes = new Uint8Array(nibbles.length / 2);
+    for (let i = 0; i < bytes.length; i++) {
+      bytes[i] = (nibbles[2 * i] << 4) | nibbles[2 * i + 1];
+    }
+    return new TextDecoder().decode(xor(bytes));
+  }
+
+  // ===== UI =====
+  const $ = id => document.getElementById(id);
+  const input = $("input"), result = $("result"), toast = $("toast");
+  const slider = $("lenSlider"), lenValue = $("lenValue"), emojiToggle = $("emojiToggle");
+
+  slider.addEventListener("input", () => lenValue.textContent = "×" + slider.value);
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => toast.classList.remove("show"), 2200);
+  }
+
+  $("btnEncode").addEventListener("click", () => {
+    const text = input.value;
+    if (!text.trim()) return showToast("Введите текст 🙃");
+    result.textContent = encode(text, +slider.value, emojiToggle.checked);
+    showToast("Зашифровано 🔒");
+  });
+
+  $("btnDecode").addEventListener("click", () => {
+    const text = input.value;
+    if (!text.trim()) return showToast("Вставьте шифр 🙃");
+    try {
+      result.textContent = decode(text);
+      showToast("Раскодировано 🔓");
+    } catch (e) {
+      result.textContent = "";
+      showToast("⚠️ " + e.message);
+    }
+  });
+
+  $("btnCopy").addEventListener("click", async () => {
+    if (!result.textContent) return showToast("Нечего копировать 🤷");
+    await navigator.clipboard.writeText(result.textContent);
+    showToast("Скопировано 📋");
+  });
+
+  // Кнопка быстрой очистки
+  $("btnClear").addEventListener("click", () => {
+    input.value = "";
+    result.textContent = "";
+    input.focus();
+    showToast("Поле очищено 🧹");
+  });
+
+  // ===== Пасхалка Hello Kitty =====
+  const overlay = $("kittyOverlay");
+  const FLOWERS = ["🌸","🌷","🌺","💮","🌼","🏵️","💖","🎀"];
+
+  function spawnFlowers() {
+    for (let i = 0; i < 45; i++) {
+      const f = document.createElement("div");
+      f.className = "flower";
+      f.textContent = FLOWERS[Math.floor(Math.random() * FLOWERS.length)];
+      f.style.left = Math.random() * 100 + "vw";
+      f.style.fontSize = (Math.random() * 1.4 + 1) + "rem";
+      f.style.animationDuration = (Math.random() * 3 + 2.5) + "s";
+      f.style.animationDelay = (Math.random() * 1.5) + "s";
+      document.body.appendChild(f);
+      setTimeout(() => f.remove(), 8000);
+    }
+  }
+
+  $("kittyBtn").addEventListener("click", () => {
+    overlay.classList.add("active");
+    spawnFlowers();
+    setTimeout(() => overlay.classList.remove("active"), 4000);
+  });
+  overlay.addEventListener("click", () => overlay.classList.remove("active"));
+
+  // ===== Фоновые анимации =====
+  // Звёзды
+  const stars = $("stars");
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement("div");
+    s.className = "star";
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*3}s, ${Math.random()*12}s`;
+    stars.appendChild(s);
+  }
+
+  // Плавающие частицы
+  const COLORS = ["rgba(160,106,255,.7)","rgba(110,231,255,.6)","rgba(255,123,213,.6)"];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    const size = Math.random() * 5 + 2;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${COLORS[i % 3]};box-shadow:0 0 ${size*2}px ${COLORS[i % 3]};animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*12}s`;
+    document.body.appendChild(p);
+  }
+
+  // Кометы
+  for (let i = 0; i < 3; i++) {
+    const c = document.createElement("div");
+    c.className = "comet";
+    c.style.cssText = `top:${Math.random()*35}%;left:${55+Math.random()*45}%;animation-delay:${i*3.5+Math.random()*2}s;animation-duration:${6+Math.random()*4}s`;
+    document.body.appendChild(c);
+  }
+})();
+</script>
+</body>
+</html>
